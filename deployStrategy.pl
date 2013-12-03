@@ -1,11 +1,11 @@
-#!/bin/perl
+#!/usr/bin/perl
 
 use strict;
 
 my $startDeployTime = shift || &usage;
 
 sub usage {
-  print "deployStrategy.pl <startDeployTime>\n";
-  die;
+  print "Usage: deployStrategy.pl <startDeployTime>\n";
+  exit 1;
 }
 
