@@ -8,7 +8,11 @@ my $builder = Module::Build->new(
     dist_author         => 'Chris Hilton <chris@dctank.com',
     dist_abstract       => 'NF solution',
     build_requires => {
-        'Test::More' => '0.10',
+        'Test::More'      => '0.98',
+        'Test::Exception' => '0.31',
+    },
+    requires => {
+        'Time::ParseDate' => ' 2013.0912',
     },
 );
 
