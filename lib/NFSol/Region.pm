@@ -5,9 +5,17 @@ use Time::Local;
 
 $ENV{TZ} = "America/Los_Angeles";
 
-has 'name'=> (is  => 'rw', isa => 'Str');
-has 'peakStartHour'=> (is  => 'rw', isa => 'Int');
-has 'peakEndHour'=> (is  => 'rw', isa => 'Int');
+has 'name'          => (is  => 'rw', isa => 'Str');
+has 'peakStartHour' => (is  => 'rw', isa => 'Int');
+has 'peakEndHour'   => (is  => 'rw', isa => 'Int');
+
+sub canDeploy {
+  my $self = shift;
+  my $deployTime = shift;
+  my $nextPeakStart = nextHourAfterTime($self->peakStartHour, $deployTime);
+  my $nextPeakEnd = nextHourAfterTime($self->peakEndHour, $deployTime);
+  return($nextPeakStart < $nextPeakEnd);
+}
 
 sub nextHourAfterTime {
   my $hour = shift;

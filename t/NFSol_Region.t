@@ -9,7 +9,11 @@ BEGIN { use_ok('NFSol::Region') };
 # Verify module can be included via "require" pragma
 require_ok( 'NFSol::Region' );
 
-my $region = new_ok('NFSol::Region');
+my $region = new_ok('NFSol::Region', [
+  name          => 'EU',
+  peakStartHour => 0,
+  peakEndHour   => 15,
+]);
 
 # timeparse
 # Can parse 1/1/1970 12am GMT
@@ -32,4 +36,12 @@ is($testNextHourCall1, 86400, "Next hour 0 after epoch");
 my $testNextHourCall2 = NFSol::Region::nextHourAfterTime(1, "1/1/1970 12am GMT");
 is($testNextHourCall2, 3600, "Next hour 1 after epoch");
 
+# canDeploy
+# Cannot deploy at noon today 
+my $testCanDeployCall1 = $region->canDeploy("noon today GMT");
+ok(!$testCanDeployCall1, "Cannot deploy at noon today");
+
+# Can deploy at 4pm today 
+my $testCanDeployCall2 = $region->canDeploy("4pm today GMT");
+ok($testCanDeployCall2, "Can deploy at 4pm today");
 
