@@ -1,12 +1,13 @@
 package NFSol::Functions;
 use Time::ParseDate;
 use Time::Local;
+use Date::Format;
 
 our (@ISA, @EXPORT_OK);
 BEGIN {
   require Exporter;
   @ISA = qw(Exporter);
-  @EXPORT_OK = qw/nextHourAfterTime timeparse ONE_HOUR ONE_DAY/;
+  @EXPORT_OK = qw/ONE_HOUR ONE_DAY nextHourAfterTime timeparse displayTime/;
 }
 
 use constant ONE_HOUR => 60 * 60;       # seconds in minute * minutes in hour
@@ -35,6 +36,15 @@ sub timeparse {
   my($time, $error) = Time::ParseDate::parsedate($text);
   die "Could not parse '$text': $error" unless defined $time;
   return $time;
+}
+
+# Transform a time to a display string
+sub displayTime {
+  my $time = shift;
+  my $uswestTime = time2str("%c %Z", $time, "PST");
+  my $useastTime = time2str("%c %Z", $time, "EST");
+  my $euTime     = time2str("%c %Z", $time, "GMT");
+  return sprintf "%s   %s   %s", $uswestTime, $useastTime, $euTime;
 }
 
 1;

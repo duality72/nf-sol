@@ -23,3 +23,11 @@ ok(!$testCanDeployCall1, "Cannot deploy at noon today");
 my $testCanDeployCall2 = $region->canDeploy("4pm today GMT");
 ok($testCanDeployCall2, "Can deploy at 4pm today");
 
+# Cannot deploy at midnight today 
+my $testCanDeployCall3 = $region->canDeploy("midnight today GMT");
+ok(!$testCanDeployCall3, "Cannot deploy at midnight today");
+
+# Can deploy at 3pm today 
+my $testCanDeployCall4 = $region->canDeploy("3pm today GMT");
+ok($testCanDeployCall4, "Can deploy at 3pm today");
+
