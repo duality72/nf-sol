@@ -1,13 +1,11 @@
-use strict;
-use warnings;
-use Time::ParseDate;
-use Time::Local;
-use NFSol::Region;
-
 package NFSol;
 
+use strict;
+use warnings;
+use NFSol::Region;
+use NFSol::Functions qw/timeparse ONE_HOUR/;
+
 $NFSol::VERSION = '0.1';
-use constant ONE_HOUR => 3600;
 
 # TODO: Account for DST for US-West and East
 our %REGIONS = (
@@ -41,7 +39,7 @@ sub regionsCanDeploy {
 }
 
 sub generateDeploySchedule {
-  my $time = NFSol::Region::timeparse(shift) or die "No deploy start time given"; 
+  my $time = timeparse(shift) or die "No deploy start time given"; 
   my @schedule;
   my %regionsToDeploy = map {$_ => 1} @REGIONS;
   while (keys %regionsToDeploy) {
