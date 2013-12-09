@@ -12,7 +12,8 @@ my $builder = Module::Build->new(
         'Test::Exception' => '0.31',
     },
     requires => {
-        'Time::ParseDate' => ' 2013.0912',
+        'Moose'           => '2.0604',
+        'Time::ParseDate' => '2013.0912',
     },
 );
 

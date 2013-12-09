@@ -31,3 +31,14 @@ is_deeply(\@testRegionsCanDeployCall2, \@NFSol::REGIONS, "All regions can deploy
 my @testRegionsCanDeployCall3 = NFSol::regionsCanDeploy("midnight today GMT", @NFSol::REGIONS);
 is_deeply(\{map {$_ => 1} @testRegionsCanDeployCall3}, \{'US-West' => 1, 'US-East' => 1}, "US regions can deploy at midnight GMT");
 
+# generateDeploySchedule
+# Test that starting a deploy at noon GMT goes EU, US-East, US-West
+my @testGenerateDeployScheduleCall1 = NFSol::generateDeploySchedule("noon today GMT");
+is($testGenerateDeployScheduleCall1[0], 'EU', "EU region first to deploy after noon GMT");
+is($testGenerateDeployScheduleCall1[2], 'US-East', "US-East region second to deploy after noon GMT");
+is($testGenerateDeployScheduleCall1[4], 'US-West', "US-West region third to deploy after noon GMT");
+ 
+# Test that starting a deploy at midnight GMT has EU deploy last
+my @testGenerateDeployScheduleCall2 = NFSol::generateDeploySchedule("midnight today GMT");
+is($testGenerateDeployScheduleCall2[4], 'EU', "EU region last to deploy after midnight GMT");
+ 

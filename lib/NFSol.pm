@@ -7,8 +7,7 @@ use NFSol::Region;
 package NFSol;
 
 $NFSol::VERSION = '0.1';
-
-$ENV{TZ} = "America/Los_Angeles";
+use constant ONE_HOUR => 3600;
 
 # TODO: Account for DST for US-West and East
 our %REGIONS = (
@@ -39,6 +38,23 @@ sub regionsCanDeploy {
     push(@deployableRegions, $region) if $REGIONS{$region}->canDeploy($time);
   }
   return @deployableRegions;
+}
+
+sub generateDeploySchedule {
+  my $time = NFSol::Region::timeparse(shift) or die "No deploy start time given"; 
+  my @schedule;
+  my %regionsToDeploy = map {$_ => 1} @REGIONS;
+  while (keys %regionsToDeploy) {
+    foreach my $region (keys %regionsToDeploy) {
+      if ($REGIONS{$region}->canDeploy($time)) {
+        push(@schedule, $region, $time);
+        delete $regionsToDeploy{$region};
+        last;
+      }
+    }
+    $time += ONE_HOUR;
+  }
+  return @schedule;
 }
 
 1;
