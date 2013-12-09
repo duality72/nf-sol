@@ -27,6 +27,7 @@ our %REGIONS = (
 );
 our @REGIONS = keys %REGIONS;
 
+# From the regions given, determine which regions can deploy at the given time
 sub regionsCanDeploy {
   my $time = shift or die "No deploy time provided";
   my @regions = @_ or die "No regions provided";
@@ -38,6 +39,8 @@ sub regionsCanDeploy {
   return @deployableRegions;
 }
 
+# Return a list of regions and deployTimes that can be used as a deployment schedule
+# Results alternate between region and deploy time
 sub generateDeploySchedule {
   my $time = timeparse(shift) or die "No deploy start time given"; 
   my @schedule;

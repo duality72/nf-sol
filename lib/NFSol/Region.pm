@@ -6,7 +6,8 @@ has 'name'          => (is  => 'rw', isa => 'Str');
 has 'peakStartHour' => (is  => 'rw', isa => 'Int');
 has 'peakEndHour'   => (is  => 'rw', isa => 'Int');
 
-sub canDeploy {
+# Indicates if the given time is deployable, i.e. outside of peak hours
+sub canDeployAt {
   my $self = shift;
   my $deployTime = timeparse(shift);
   my $nextPeakStart = nextHourAfterTime($self->peakStartHour, $deployTime);

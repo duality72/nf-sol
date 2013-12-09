@@ -14,20 +14,20 @@ my $region = new_ok('NFSol::Region', [
   peakEndHour   => 15,
 ]);
 
-# canDeploy
+# canDeployAt
 # Cannot deploy at noon today 
-my $testCanDeployCall1 = $region->canDeploy("noon today GMT");
+my $testCanDeployCall1 = $region->canDeployAt("noon today GMT");
 ok(!$testCanDeployCall1, "Cannot deploy at noon today");
 
 # Can deploy at 4pm today 
-my $testCanDeployCall2 = $region->canDeploy("4pm today GMT");
+my $testCanDeployCall2 = $region->canDeployAt("4pm today GMT");
 ok($testCanDeployCall2, "Can deploy at 4pm today");
 
 # Cannot deploy at midnight today 
-my $testCanDeployCall3 = $region->canDeploy("midnight today GMT");
+my $testCanDeployCall3 = $region->canDeployAt("midnight today GMT");
 ok(!$testCanDeployCall3, "Cannot deploy at midnight today");
 
 # Can deploy at 3pm today 
-my $testCanDeployCall4 = $region->canDeploy("3pm today GMT");
+my $testCanDeployCall4 = $region->canDeployAt("3pm today GMT");
 ok($testCanDeployCall4, "Can deploy at 3pm today");
 

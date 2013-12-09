@@ -39,6 +39,7 @@ sub timeparse {
 }
 
 # Transform a time to a display string
+# ex. 12/08/13 07:00:00 PST   12/08/13 10:00:00 EST   12/08/13 15:00:00 GMT
 sub displayTime {
   my $time = shift;
   my $uswestTime = time2str("%c %Z", $time, "PST");
