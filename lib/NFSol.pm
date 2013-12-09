@@ -30,5 +30,16 @@ our %REGIONS = (
 );
 our @REGIONS = keys %REGIONS;
 
+sub regionsCanDeploy {
+  my $time = shift or die "No deploy time provided";
+  my @regions = @_ or die "No regions provided";
+  my @deployableRegions;
+  foreach my $region (@regions) {
+    die "Region $region does not exist" unless $REGIONS{$region};
+    push(@deployableRegions, $region) if $REGIONS{$region}->canDeploy($time);
+  }
+  return @deployableRegions;
+}
+
 1;
 
