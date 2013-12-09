@@ -2,6 +2,7 @@ use strict;
 use warnings;
 use Test::More qw(no_plan);
 use Test::Exception;
+use NFSol::Functions qw/ONE_HOUR/;
 
 use constant NUM_REGIONS => 3;
 
@@ -42,3 +43,12 @@ is($testGenerateDeployScheduleCall1[4], 'US-West', "US-West region third to depl
 my @testGenerateDeployScheduleCall2 = NFSol::generateDeploySchedule("midnight today GMT");
 is($testGenerateDeployScheduleCall2[4], 'EU', "EU region last to deploy after midnight GMT");
  
+# Test that starting a deploy with a 5 hour wait time goes EU, US-East, US-West with proper separation
+my @testGenerateDeployScheduleCall3 = NFSol::generateDeploySchedule("noon today GMT", 5);
+is($testGenerateDeployScheduleCall3[0], 'EU', "EU region first to deploy after noon GMT");
+is($testGenerateDeployScheduleCall3[2], 'US-East', "US-East region second to deploy after noon GMT");
+ok($testGenerateDeployScheduleCall3[3] - $testGenerateDeployScheduleCall3[1] == 5 * ONE_HOUR, "US-East region deploys five hours after EU");
+is($testGenerateDeployScheduleCall3[4], 'US-West', "US-West region third to deploy after noon GMT");
+ok($testGenerateDeployScheduleCall3[5] - $testGenerateDeployScheduleCall3[3] == 5 * ONE_HOUR, "US-West region deploys five hours after US-East");
+ 
+

@@ -41,8 +41,10 @@ sub regionsCanDeploy {
 
 # Return a list of regions and deployTimes that can be used as a deployment schedule
 # Results alternate between region and deploy time
+# Can also specify a wait time in number of hours between deployments (default 1)
 sub generateDeploySchedule {
   my $time = timeparse(shift) or die "No deploy start time given"; 
+  my $waitTime = shift || 1;
   my @schedule;
   my %regionsToDeploy = map {$_ => 1} @REGIONS;
   while (keys %regionsToDeploy) {
@@ -50,6 +52,8 @@ sub generateDeploySchedule {
       if ($REGIONS{$region}->canDeployAt($time)) {
         push(@schedule, $region, $time);
         delete $regionsToDeploy{$region};
+        # Move ahead the wait time minus one hour for the additional hour that will be added below
+        $time += ONE_HOUR * ($waitTime - 1);
         last;
       }
     }
