@@ -34,7 +34,7 @@ sub regionsCanDeploy {
   my @deployableRegions;
   foreach my $region (@regions) {
     die "Region $region does not exist" unless $REGIONS{$region};
-    push(@deployableRegions, $region) if $REGIONS{$region}->canDeploy($time);
+    push(@deployableRegions, $region) if $REGIONS{$region}->canDeployAt($time);
   }
   return @deployableRegions;
 }
@@ -47,7 +47,7 @@ sub generateDeploySchedule {
   my %regionsToDeploy = map {$_ => 1} @REGIONS;
   while (keys %regionsToDeploy) {
     foreach my $region (keys %regionsToDeploy) {
-      if ($REGIONS{$region}->canDeploy($time)) {
+      if ($REGIONS{$region}->canDeployAt($time)) {
         push(@schedule, $region, $time);
         delete $regionsToDeploy{$region};
         last;
