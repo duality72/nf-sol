@@ -2,6 +2,8 @@ package NFSol::Region;
 use NFSol::Functions qw/timeparse nextHourAfterTime/;
 use Moose;
 
+use constant DRIFT_THRESHOLD => 5;
+
 has 'name'          => (is  => 'rw', isa => 'Str', required => 1);
 has 'peakStartHour' => (is  => 'rw', isa => 'Int', required => 1);
 has 'peakEndHour'   => (is  => 'rw', isa => 'Int', required => 1);
@@ -18,10 +20,12 @@ sub canDeployAt {
 
 # Return the number of builds between the currently deployed build ID and a given ID
 # If the build ID is less than the deployed ID, drift is 0
+# If the drift value is than the drift threshold, drift is 0
 sub drift {
   my $self = shift;
   my $buildId = shift;
-  return ($buildId <= $self->buildId ? 0 : $buildId - $self->buildId);
+  my $drift = $buildId - $self->buildId;
+  return ($drift <= DRIFT_THRESHOLD ? 0 : $drift);
 }
 
 1;

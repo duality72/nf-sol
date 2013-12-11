@@ -45,3 +45,7 @@ is($testDriftCall2, 10, "Drift from build ID 40 is 10");
 my $testDriftCall3 = $region->drift(10);
 is($testDriftCall3, 0, "Drift from build ID 10 is 0");
 
+# Test that drift from build ID 31 is 0 (under drift threshold)
+my $testDriftCall4 = $region->drift(31);
+is($testDriftCall4, 0, "Drift from build ID 31 is 0");
+
