@@ -3,13 +3,23 @@
 use strict;
 use warnings;
 use lib 'lib';
+use Getopt::Long;
 use NFSol;
 use NFSol::Functions qw/displayTime/;
 
-my $startDeployTime = shift || &usage;
-my $waitTime = shift || 1;
+my $startTime = 'now';
+my $waitTime = 1;
+my $buildId = 0;
+my $help;
+GetOptions(
+  "startTime=s" => \$startTime,
+  "waitTime=i"  => \$waitTime,
+  "buildId=i"   => \$buildId,
+  "help|?"      => \$help,
+) or &usage;
+&usage if $help or @ARGV;
 
-my @schedule = NFSol::generateDeploySchedule($startDeployTime, $waitTime);
+my @schedule = NFSol::generateDeploySchedule($startTime, $waitTime);
 
 while (@schedule) {
   my $region = shift @schedule;
@@ -19,10 +29,16 @@ while (@schedule) {
 
 sub usage {
   print <<END;
-Usage: deployStrategy.pl <startDeployTime> [waitTime]
+Usage: deployStrategy.pl [--startTime <time>] [--waitTime #] [--buildId #]
 
-  startDeployTime- ex. '12/08/13 07:00:00' or '3pm tomorrow'
-  waitTime       - in hours
+  startTime - The earliest time a deployment can start.
+              Ex. '12/08/13 07:00:00' or '3pm tomorrow'.
+              Defaults to 'now' and parsing in PST.
+  waitTime  - Time to wait between deployments in hours.
+              Defaults to 1.
+  buildId   - The build ID that will be deployed.
+              Used to report on drift of already deployed builds.
+              Defaults to 0 (no report)
 END
   exit 1;
 }
