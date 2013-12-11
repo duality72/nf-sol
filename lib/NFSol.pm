@@ -65,5 +65,12 @@ sub generateDeploySchedule {
   return @schedule;
 }
 
+# Return the amount of drift for a region from the given build ID
+sub regionDrift {
+  my $region = shift;
+  my $buildId = shift;
+  return $REGIONS{$region}->drift($buildId);
+}
+
 1;
 

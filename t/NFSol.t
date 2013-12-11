@@ -51,4 +51,16 @@ ok($testGenerateDeployScheduleCall3[3] - $testGenerateDeployScheduleCall3[1] == 
 is($testGenerateDeployScheduleCall3[4], 'US-West', "US-West region third to deploy after noon GMT");
 ok($testGenerateDeployScheduleCall3[5] - $testGenerateDeployScheduleCall3[3] == 5 * ONE_HOUR, "US-West region deploys five hours after US-East");
  
+# regionDrift
+# Test that US-West region is 20 builds behind buildID 30
+my $testRegionDriftCall1 = NFSol::regionDrift("US-West", 30);
+is($testRegionDriftCall1, 20, "US-West region is 20 builds behind buildID 30");
+
+# Test that US-East region is 10 builds behind buildID 30
+my $testRegionDriftCall2 = NFSol::regionDrift("US-East", 30);
+is($testRegionDriftCall2, 10, "US-East region is 10 builds behind buildID 30");
+
+# Test that EU region is 0 builds behind buildID 30
+my $testRegionDriftCall3 = NFSol::regionDrift("EU", 30);
+is($testRegionDriftCall3, 0, "EU region is 0 builds behind buildID 30");
 

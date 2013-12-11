@@ -16,5 +16,13 @@ sub canDeployAt {
   return($nextPeakStart < $nextPeakEnd);
 }
 
+# Return the number of builds between the currently deployed build ID and a given ID
+# If the build ID is less than the deployed ID, drift is 0
+sub drift {
+  my $self = shift;
+  my $buildId = shift;
+  return ($buildId <= $self->buildId ? 0 : $buildId - $self->buildId);
+}
+
 1;
 
