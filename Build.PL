@@ -14,6 +14,7 @@ my $builder = Module::Build->new(
     requires => {
         'Moose'           => '2.0604',
         'Time::ParseDate' => '2013.0912',
+        'Date::Format'    => '2.24',
     },
 );
 
