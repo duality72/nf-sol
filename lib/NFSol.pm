@@ -13,16 +13,19 @@ our %REGIONS = (
     name          => 'US-West',
     peakStartHour => 8,
     peakEndHour   => 23,
+    buildId       => 100,
   ),
   'US-East' => new NFSol::Region(
     name          => 'US-East',
     peakStartHour => 5,
     peakEndHour   => 20,
+    buildId       => 200,
   ),
   'EU' => new NFSol::Region(
     name          => 'EU',
     peakStartHour => 0,
     peakEndHour   => 15,
+    buildId       => 300,
   ),
 );
 our @REGIONS = keys %REGIONS;

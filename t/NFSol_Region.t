@@ -12,6 +12,7 @@ my $region = new_ok('NFSol::Region', [
   name          => 'EU',
   peakStartHour => 0,
   peakEndHour   => 15,
+  buildId       => 6,
 ]);
 
 # canDeployAt
