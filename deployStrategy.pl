@@ -22,9 +22,11 @@ GetOptions(
 my @schedule = NFSol::generateDeploySchedule($startTime, $waitTime);
 
 while (@schedule) {
-  my $region = shift @schedule;
-  my $time   = shift @schedule;
-  printf "%7s: %s\n", $region, displayTime($time);
+  my $region   = shift @schedule;
+  my $time     = shift @schedule;
+  my $drift    = NFSol::regionDrift($region, $buildId);
+  my $driftStr = $drift ? " Drift: $drift" : '';
+  printf "%7s: %s%s\n", $region, displayTime($time), $driftStr;
 }
 
 sub usage {
